@@ -6,60 +6,76 @@ use RapidWeb\GooglePeopleAPI\Contact;
 
 // Remove cors error in php server
 if (isset($_SERVER['HTTP_ORIGIN'])) {
-    header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}");
-    header('Access-Control-Allow-Credentials: true');
-    header('Access-Control-Max-Age: 86400');    // cache for 1 day
+	header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}");
+	header('Access-Control-Allow-Credentials: true');
+	header('Access-Control-Max-Age: 86400');    // cache for 1 day
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
-    if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD']))
-        header("Access-Control-Allow-Methods: GET, POST, OPTIONS");         
+	if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD']))
+		header("Access-Control-Allow-Methods: GET, POST, OPTIONS");         
 
-    if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']))
-        header("Access-Control-Allow-Headers:        {$_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']}");
+	if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']))
+		header("Access-Control-Allow-Headers:        {$_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']}");
 
-    exit(0);
+	exit(0);
 }
 
 
 if (isset($_GET['access_token'])) {
 	$googleOAuth2Handler = new GoogleOAuth2Handler($google_client_id, $google_client_secret, $_GET['scope'], $_GET['access_token']);
-    $people = new GooglePeople($googleOAuth2Handler);
-   	
-    if (isset($_GET['contact'])) {
-        if($_GET['flag']) {
+	$people = new GooglePeople($googleOAuth2Handler);
+	
+	if (isset($_GET['contact'])) {
 
-            $contactInfo = json_decode($_GET['contact']);
-            $contact = new Contact($people);
+		$contactInfo = json_decode($_GET['contact']);
+		if ($contactInfo->resourceName !== '') {
+			$contact = $people->get($contactInfo->resourceName);
+			$contact->names[0]->givenName  = $contactInfo->name;
+			$contact->names[0]->displayName  = $contactInfo->name;
+			$contact->names[0]->unstructuredName  = $contactInfo->name;
 
-            $contact->names[0] = new stdClass;
-            $contact->names[0]->givenName  = $contactInfo->name;
+			$contact->emailAddresses[0]->value  = $contactInfo->email;
+			$contact->phoneNumbers[0]->value  = $contactInfo->phoneNumber;
+		} else {
+			$contact = new Contact($people);
 
-            $contact->emailAddresses[0] = new stdClass;
-            $contact->emailAddresses[0]->value  = $contactInfo->email;
+			$contact->names[0] = new stdClass;
+			$contact->names[0]->givenName  = $contactInfo->name;
+
+			$contact->emailAddresses[0] = new stdClass;
+			$contact->emailAddresses[0]->value  = $contactInfo->email;
 
 
-            $contact->phoneNumbers[0] = new stdClass;
-            $contact->phoneNumbers[0]->value  = $contactInfo->phoneNumber;
-            $contact->save();
-        }
-    }
+			$contact->phoneNumbers[0] = new stdClass;
+			$contact->phoneNumbers[0]->value  = $contactInfo->phoneNumber;
+		}
 
-    echo json_encode(['contacts' => getAllContacts($people)]);
+		$contact->save();
+		   
+	}
+
+	if (isset($_GET['resourceName'])) {
+		$contact = $people->get($_GET['resourceName']);
+		$contact->delete();
+	}
+
+	echo json_encode(['contacts' => getAllContacts($people)]);
 
 }
 
 function getAllContacts($people) {
-    $contacts = [];
+	$contacts = [];
 
-    foreach($people->all() as $contact) {
-        $contacts[] = [
-            'email' => $contact->emailAddresses[0]->value,
-            'name' => $contact->names[0]->displayName,
-            'phoneNumber' => $contact->phoneNumbers[0]->value,
-        ];
-       // $contacts[] = $contact;
-    }
+	foreach($people->all() as $contact) {
+		$contacts[] = [
+			'email' => $contact->emailAddresses[0]->value,
+			'name' => $contact->names[0]->displayName,
+			'phoneNumber' => $contact->phoneNumbers[0]->value,
+			'resourceName' => $contact->resourceName
+		];
 
-    return $contacts;
+	}
+
+	return $contacts;
 }
