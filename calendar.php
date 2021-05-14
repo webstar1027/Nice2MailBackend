@@ -9,18 +9,41 @@ if (isset($token)) {
 
 	if (isset($_GET['event'])) {
 		$event = json_decode($_GET['event']);
-		$param = [
-			'summary' => $event->summary,
-			'start' => [
-				'dateTime' => date("c", strtotime($event->start_date))
-			],
-			'end' => [
-				'dateTime' => date("c", strtotime($event->end_date))
-			]
-		];
-		$event = new Google_Service_Calendar_Event($param);
-		$event = $service->events->insert($calendarId, $event);
+
+		if (isset($event->id)) {
+			// Update existing event
+			$updateEvent = $service->events->get($calendarId, $event->id);
+			$updateEvent->setSummary($event->summary);
+
+			$eventStart = new Google_Service_Calendar_EventDateTime();
+     		$eventStart->setDateTime(date("c", strtotime($event->start_date)));
+			$updateEvent->setStart($eventStart);
+
+			$eventEnd = new Google_Service_Calendar_EventDateTime();
+     		$eventEnd->setDateTime(date("c", strtotime($event->end_date)));
+			$updateEvent->setEnd($eventEnd);
+			$service->events->update($calendarId, $updateEvent->getId(), $updateEvent);
+		} else {
+			// create new event
+			$param = [
+				'summary' => $event->summary,
+				'start' => [
+					'dateTime' => date("c", strtotime($event->start_date))
+				],
+				'end' => [
+					'dateTime' => date("c", strtotime($event->end_date))
+				]
+			];
+			$newEvent = new Google_Service_Calendar_Event($param);
+			$service->events->insert($calendarId, $newEvent);
+		}
+		
 	}
+
+	if (isset($_GET['id'])) {
+		$service->events->delete($calendarId, $_GET['id']);
+	}
+
 	echo json_encode(['events' => getTotalEvents()]);
 }
 
@@ -60,7 +83,8 @@ function getTotalEvents() {
 	    	$_event = [
 	    		'start_date' => dateFormat($start),
 	    		'end_date' => dateFormat($end),
-	    		'summary' => $event->getSummary()
+	    		'summary' => $event->getSummary(),
+	    		'id' => $event->id
 	    	];
 
 	    	$events[] = $_event;
