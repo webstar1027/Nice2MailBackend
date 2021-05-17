@@ -1,0 +1,5 @@
+IndexIgnore *
+
+#MEMBERS
+
+DirectoryIndex index.php

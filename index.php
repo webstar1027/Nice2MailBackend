@@ -3,7 +3,6 @@ include('config.php');
 use RapidWeb\GoogleOAuth2Handler\GoogleOAuth2Handler; 
 use RapidWeb\GooglePeopleAPI\GooglePeople;
 use RapidWeb\GooglePeopleAPI\Contact;
-
 if (isset($_GET['access_token'])) {
 	$googleOAuth2Handler = new GoogleOAuth2Handler($google_client_id, $google_client_secret, $_GET['scope'], $_GET['access_token']);
 	$people = new GooglePeople($googleOAuth2Handler);
