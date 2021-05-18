@@ -12,6 +12,11 @@ if (isset($token)) {
 
 	if (isset($_FILES['file'])) {
 		uploadFile($_FILES['file']);
+		//echo json_encode($_FILES['file']);
+	}
+
+	if (isset($_GET['deleteId'])) {
+		$service->files->delete($_GET['deleteId']);
 	}
 
 	echo json_encode(['files' => getTotalFiles()]);
