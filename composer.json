@@ -1,5 +1,6 @@
 {
     "require": {
-        "rapidwebltd/php-google-people-api": "^1.0"
+        "rapidwebltd/php-google-people-api": "^1.0",
+        "krizalys/onedrive-php-sdk": "^3.1"
     }
 }

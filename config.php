@@ -8,6 +8,9 @@ $google_client_secret = 'lVEeEPJ3pdpCVAFciq1ZZGvH';
 $google_redirect_uri = 'http://localhost:8080';
 $api_key = 'AIzaSyBCUkzA23H9RF1LAGgRsFxWm-a6fJ2L0TI';
 
+$azure_client_id = 'cfb7c62b-f1c8-4b0e-a2bf-1de311de74dd';
+$azure_client_secret = '66ca97a5-98f4-441b-9873-de38b6ac9a6f';
+$azure_redirect_uri = 'http://localhost:8080';
 
 $client->setClientId($google_client_id);
 $client->setClientSecret($google_client_secret);

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c049c32203b78d12eae9bf98add7ad96",
+    "content-hash": "25207da0574a2397e499cdc04fe97f01",
     "packages": [
         {
             "name": "firebase/php-jwt",
@@ -427,6 +427,112 @@
                 "source": "https://github.com/guzzle/psr7/tree/1.8.2"
             },
             "time": "2021-04-26T09:17:50+00:00"
+        },
+        {
+            "name": "krizalys/onedrive-php-sdk",
+            "version": "3.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/krizalys/onedrive-php-sdk.git",
+                "reference": "a300e86c855aefc35d5ef37ce8a69a8b61ccedea"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/krizalys/onedrive-php-sdk/zipball/a300e86c855aefc35d5ef37ce8a69a8b61ccedea",
+                "reference": "a300e86c855aefc35d5ef37ce8a69a8b61ccedea",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": ">=6.3.3",
+                "microsoft/microsoft-graph": "^1.7.0",
+                "php": ">=7.3"
+            },
+            "require-dev": {
+                "brianium/paratest": "^6.0.0",
+                "php-webdriver/webdriver": "^1.7.0",
+                "phpunit/phpunit": "^9.0.0",
+                "symfony/process": "^4.0.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Krizalys\\Onedrive\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Christophe Vidal",
+                    "homepage": "http://www.krizalys.com/"
+                }
+            ],
+            "description": "OneDrive SDK for PHP.",
+            "homepage": "https://github.com/krizalys/onedrive-php-sdk",
+            "keywords": [
+                "OneDrive",
+                "krizalys",
+                "php",
+                "sdk"
+            ],
+            "support": {
+                "email": "support@krizalys.com",
+                "issues": "https://github.com/krizalys/onedrive-php-sdk/issues",
+                "source": "https://github.com/krizalys/onedrive-php-sdk",
+                "wiki": "https://github.com/krizalys/onedrive-php-sdk/wiki"
+            },
+            "time": "2021-04-18T05:53:24+00:00"
+        },
+        {
+            "name": "microsoft/microsoft-graph",
+            "version": "1.32.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/microsoftgraph/msgraph-sdk-php.git",
+                "reference": "2d64a631828f470db6c873c9af6925770e9fb4d4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/microsoftgraph/msgraph-sdk-php/zipball/2d64a631828f470db6c873c9af6925770e9fb4d4",
+                "reference": "2d64a631828f470db6c873c9af6925770e9fb4d4",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "guzzlehttp/guzzle": "^6.0 || ^7.0",
+                "php": "^8.0 || ^7.3"
+            },
+            "require-dev": {
+                "mikey179/vfsstream": "^1.2",
+                "phpunit/phpunit": "^8.0 || ^9.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Beta\\Microsoft\\Graph\\": "src/Beta/Microsoft/Graph/",
+                    "Microsoft\\Graph\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microsoft Graph Client Tooling",
+                    "email": "graphtooling@service.microsoft.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "The Microsoft Graph SDK for PHP",
+            "homepage": "https://developer.microsoft.com/en-us/graph",
+            "support": {
+                "issues": "https://github.com/microsoftgraph/msgraph-sdk-php/issues",
+                "source": "https://github.com/microsoftgraph/msgraph-sdk-php/tree/1.32.0"
+            },
+            "time": "2021-05-14T14:54:07+00:00"
         },
         {
             "name": "monolog/monolog",
